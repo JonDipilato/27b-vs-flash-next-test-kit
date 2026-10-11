@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Summit Ridge Roofing — Invoice Calculator</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --panel: #141b23;
+    --panel-2: #1a2430;
+    --line: #2a3644;
+    --text: #e8eef4;
+    --muted: #8a97a6;
+    --brand: #f59e0b;
+    --brand-2: #fb9020;
+    --steel: #6b7a8c;
+    --good: #34d399;
+    --danger: #ef4444;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #0d1117;
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  /* Brand accent */
+  body {
+    background:
+      radial-gradient(1200px 600px at 50% -10%, rgba(245,158,11,0.08), transparent 60%),
+      #0d1117;
+  }
+  header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 22px 28px;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+  }
+  .mark {
+    width: 40px; height: 40px;
+    border-radius: 9px;
+    background: linear-gradient(135deg, var(--brand), var(--brand-2));
+    display: grid; place-items: center;
+    font-size: 22px;
+    box-shadow: 0 0 0 1px rgba(245,158,11,0.35);
+  }
+  .mark span { filter: drop-shadow(0 1px 0 rgba(0,0,0,0.3)); }
+  header h1 {
+    font-size: 19px;
+    font-weight: 600;
+    margin: 0;
+    letter-spacing: 0.2px;
+  }
+  header p {
+    margin: 0;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+  }
+
+  main {
+    flex: 1;
+    max-width: 1180px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 26px 28px 40px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(300px, 0.9fr);
+    gap: 22px;
+  }
+  @media (max-width: 900px) {
+    main { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- Line items panel ---------- */
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+  }
+  .panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--line);
+  }
+  .panel-head h2 {
+    font-size: 12px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  /* Grid table */
+  .grid {
+    display: grid;
+    grid-template-columns: 2.2fr 0.9fr 1fr 1.1fr 0.9fr 40px;
+    gap: 8px;
+    padding: 8px 14px;
+    min-height: 280px;
+  }
+  .grid .head {
+    font-size: 10.5px;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--muted);
+    align-self: center;
+    user-select: none;
+  }
+  .grid .head:first-child { padding-left: 4px; }
+  .grid-row {
+    display: contents;
+  }
+  .field {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    color: var(--text);
+    font: inherit;
+    font-size: 14px;
+    padding: 8px 10px;
+    width: 100%;
+  }
+  .field:focus {
+    outline: none;
+    border-color: var(--brand);
+    background: rgba(245,158,11,0.06);
+    box-shadow: 0 0 0 2px rgba(245,158,11,0.18);
+  }
+  .field::placeholder { color: #5b6a79; }
+
+  .field-num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  .field-money {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    color: #c7d2df;
+  }
+  .field-money:focus { color: var(--text); }
+
+  .line-total {
+    align-self: center;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 13px;
+    color: var(--muted);
+    padding-right: 10px;
+  }
+
+  .btn {
+    font: inherit;
+    font-size: 12px;
+    color: var(--text);
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 7px 12px;
+    cursor: pointer;
+    transition: background .15s, transform .05s, border-color .15s;
+    white-space: nowrap;
+  }
+  .btn:hover { background: #1f2c3a; border-color: #3a4a5c; }
+  .btn:active { transform: translateY(1px); }
+  .btn-ghost {
+    background: transparent;
+    border-color: transparent;
+    color: var(--muted);
+  }
+  .btn-ghost:hover {
+    color: var(--text);
+    background: rgba(255,255,255,0.04);
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--brand), var(--brand-2));
+    border-color: transparent;
+    color: #1a1206;
+    font-weight: 600;
+  }
+  .btn-primary:hover { filter: brightness(1.06); }
+
+  .empty {
+    grid-column: 1 / -1;
+    align-self: center;
+    text-align: center;
+    color: var(--muted);
+    font-size: 14px;
+    padding: 40px 0;
+  }
+
+  /* ---------- Totals panel ---------- */
+  .totals {
+    display: flex;
+    flex-direction: column;
+  }
+  .totals .panel-head { border-bottom: none; padding-bottom: 0; }
+  .totals-body {
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .tax-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .tax-row label {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+  }
+  .tax-input-wrap {
+    position: relative;
+    flex: 1;
+  }
+  .tax-input-wrap span {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 13px;
+    pointer-events: none;
+  }
+  .tax-input {
+    width: 100%;
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--text);
+    font: inherit;
+    font-size: 15px;
+    padding: 9px 12px;
+    padding-right: 28px;
+    text-align: right;
+  }
+  .tax-input:focus {
+    outline: none;
+    border-color: var(--brand);
+    box-shadow: 0 0 0 2px rgba(245,158,11,0.18);
+  }
+
+  .summary {
+    border-top: 1px dashed var(--line);
+    padding-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .sum-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .sum-row .val {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+  }
+  .sum-row.total {
+    margin-top: 6px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .sum-row.total .val {
+    font-size: 26px;
+    color: var(--brand);
+  }
+
+  /* ---------- Toolbar ---------- */
+  .toolbar {
+    display: flex;
+    gap: 8px;
+    margin-top: 18px;
+  }
+  .toolbar .btn { flex: 1; }
+
+  /* Subtle row hover */
+  .grid-row { position: relative; }
+  .row-hover {
+    border-radius: 8px;
+  }
+  .grid-row:hover .field {
+    /* handled via wrapper background */
+  }
+
+  /* Fade-in for new rows */
+  .fade-in { animation: fade .18s ease-out; }
+  @keyframes fade {
+    from { opacity: 0; transform: translateY(2px); }
+    to { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="mark"><span>⌂</span></div>
+    <div>
+      <h1>Summit Ridge Roofing — Invoice Calculator</h1>
+      <p>Line items · quantity · price · tax · live total</p>
+    </div>
+  </header>
+
+  <main>
+    <!-- Line items -->
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Line Items</h2>
+        <button class="btn btn-ghost" id="clearAll">Clear All</button>
+      </div>
+      <div class="grid" id="grid">
+        <div class="head">Description</div>
+        <div class="head">Qty</div>
+        <div class="head">Unit Price</div>
+        <div class="head">Discount</div>
+        <div class="head">Line Total</div>
+        <div class="head"></div>
+        <div class="empty" id="empty">No line items yet. Add one to get started.</div>
+      </div>
+    </section>
+
+    <!-- Totals -->
+    <section class="panel totals">
+      <div class="panel-head">
+        <h2>Totals</h2>
+      </div>
+      <div class="totals-body">
+        <div class="tax-row">
+          <label for="taxRate">Tax Rate</label>
+          <div class="tax-input-wrap">
+            <input type="number" id="taxRate" class="tax-input" value="8.25" min="0" step="0.01" placeholder="0.00">
+            <span>%</span>
+          </div>
+        </div>
+        <div class="summary">
+          <div class="sum-row">
+            <span>Subtotal</span>
+            <span class="val" id="subtotal">$0.00</span>
+          </div>
+          <div class="sum-row">
+            <span>Tax (<span id="taxPct">8.25</span>%)</span>
+            <span class="val" id="taxAmount">$0.00</span>
+          </div>
+          <div class="sum-row total">
+            <span>Total</span>
+            <span class="val" id="total">$0.00</span>
+          </div>
+        </div>
+        <div class="toolbar">
+          <button class="btn" id="addBtn">+ Add Line Item</button>
+          <button class="btn btn-primary" id="printBtn">Print / Save PDF</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+<script>
+  const grid = document.getElementById('grid');
+  const empty = document.getElementById('empty');
+  const addBtn = document.getElementById('addBtn');
+  const clearAll = document.getElementById('clearAll');
+  const printBtn = document.getElementById('printBtn');
+  const taxInput = document.getElementById('taxRate');
+  const taxPct = document.getElementById('taxPct');
+  const subtotalEl = document.getElementById('subtotal');
+  const taxAmountEl = document.getElementById('taxAmount');
+  const totalEl = document.getElementById('total');
+
+  const rows = [];
+  let idCounter = 0;
+
+  function makeRow(data = {}) {
+    const id = ++idCounter;
+    const r = {
+      id,
+      desc: data.desc || '',
+      qty: data.qty != null ? data.qty : 1,
+      price: data.price || 0,
+      discount: data.discount || 0,
+    };
+    rows.push(r);
+
+    const desc = document.createElement('input');
+    desc.type = 'text';
+    desc.className = 'field';
+    desc.value = r.desc;
+    desc.placeholder = 'e.g. Metal roof panels';
+    desc.addEventListener('input', () => { r.desc = desc.value; render(); });
+
+    const qty = document.createElement('input');
+    qty.type = 'number';
+    qty.className = 'field field-num';
+    qty.min = '0';
+    qty.step = '1';
+    qty.value = r.qty;
+    qty.addEventListener('input', () => { r.qty = parseFloat(qty.value) || 0; render(); });
+
+    const price = document.createElement('input');
+    price.type = 'number';
+    price.className = 'field field-num';
+    price.min = '0';
+    price.step = '0.01';
+    price.value = r.price;
+    price.addEventListener('input', () => { r.price = parseFloat(price.value) || 0; render(); });
+
+    const discount = document.createElement('input');
+    discount.type = 'number';
+    discount.className = 'field field-num';
+    discount.min = '0';
+    discount.step = '0.01';
+    discount.value = r.discount;
+    discount.placeholder = '0.00';
+    discount.addEventListener('input', () => { r.discount = parseFloat(discount.value) || 0; render(); });
+
+    const lineTotal = document.createElement('div');
+    lineTotal.className = 'line-total';
+    lineTotal.textContent = '$0.00';
+
+    const remove = document.createElement('button');
+    remove.className = 'btn btn-ghost';
+    remove.textContent = '×';
+    remove.title = 'Remove line item';
+    remove.addEventListener('click', () => {
+      const idx = rows.findIndex(x => x.id === id);
+      if (idx > -1) rows.splice(idx, 1);
+      removeRowDom(r.id, [desc, qty, price, discount, lineTotal, remove]);
+      render();
+    });
+
+    grid.appendChild(desc);
+    grid.appendChild(qty);
+    grid.appendChild(price);
+    grid.appendChild(discount);
+    grid.appendChild(lineTotal);
+    grid.appendChild(remove);
+
+    r.dom = [desc, qty, price, discount, lineTotal, remove];
+    r.lineTotalEl = lineTotal;
+
+    // Focus the new row's description
+    desc.focus();
+    return r;
+  }
+
+  function removeRowDom(id, domEls) {
+    // Remove DOM nodes belonging to this row
+    domEls.forEach(el => el.parentNode && el.parentNode.removeChild(el));
+  }
+
+  function render() {
+    // Empty state
+    if (rows.length === 0) {
+      empty.style.display = '';
+    } else {
+      empty.style.display = 'none';
+    }
+
+    let subtotal = 0;
+    rows.forEach(r => {
+      const line = (r.qty * r.price) - r.discount;
+      r.lineTotalEl.textContent = fmt(line);
+      subtotal += line;
+    });
+
+    const taxRate = parseFloat(taxInput.value) || 0;
+    const taxAmount = subtotal * (taxRate / 100);
+    const total = subtotal + taxAmount;
+
+    subtotalEl.textContent = fmt(subtotal);
+    taxAmountEl.textContent = fmt(taxAmount);
+    totalEl.textContent = fmt(total);
+    taxPct.textContent = (taxRate).toFixed(2).replace(/\.00$/, '');
+  }
+
+  function fmt(n) {
+    return '$' + n.toFixed(2);
+  }
+
+  addBtn.addEventListener('click', () => makeRow());
+  clearAll.addEventListener('click', () => {
+    rows.forEach(r => removeRowDom(r.id, r.dom));
+    rows.length = 0;
+    render();
+  });
+  taxInput.addEventListener('input', render);
+  printBtn.addEventListener('click', () => window.print());
+
+  // Seed a couple of sample rows so the page looks alive
+  makeRow({ desc: 'Metal roof panels', qty: 1, price: 24500, discount: 0 });
+  makeRow({ desc: 'Gutter replacement', qty: 1, price: 3200, discount: 200 });
+  makeRow({ desc: 'Climb & rigging (labor)', qty: 6, price: 180, discount: 0 });
+  render();
+</script>
+</body>
+</html>

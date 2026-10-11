@@ -1,0 +1,220 @@
+Below is the timestamped transcript of my YouTube video "Qwen 3.8 27B on a 12GB GPU.. (Does It Actually Fit?)".
+Write: (1) a YouTube description of 2 short paragraphs using only facts said in the transcript, then (2) a CHAPTERS list.
+Chapter rules: one per line as MM:SS Title, first chapter is 00:00, at least 4 chapters, in time order, at least 10 seconds apart, and every timestamp must be a real moment from the transcript (the video ends at 07:55).
+
+TRANSCRIPT:
+[00:00] Every single local channel
+[00:03] has tested a new Quen model this week.
+[00:06] On 16 gig cards,
+[00:08] big Macs, monster machines.
+[00:11] So, I have 12 gigs, like you've seen in
+[00:13] the previous videos.
+[00:15] And it's a 4070 Super.
+[00:18] So,
+[00:19] the card most people actually own. So,
+[00:22] does it even
+[00:25] fit, right?
+[00:26] The short answer is yes. So,
+[00:31] essentially, the file everybody is
+[00:33] actually showing is the wrong one.
+[00:35] And there's one hidden setting that made
+[00:37] the exact same file four times faster on
+[00:40] my card. I have the real numbers right
+[00:42] off my PC right here. And I'll give you
+[00:44] the exact commands so you can do it in
+[00:46] about 10 minutes or so.
+[00:48] All right, so real quick,
+[00:50] what is this thing?
+[00:52] It's a Quen 3.8 27 billion parameter
+[00:54] model, and it dropped about a week ago.
+[00:57] It's free
+[00:59] and open weights. You can download it,
+[01:01] run it on your computer,
+[01:02] and your data never leaves your house.
+[01:06] People are calling it the best one of
+[01:08] the best local models so far. What do
+[01:10] you think? Let me down know in the
+[01:11] comments.
+[01:12] And some are even saying it codes close
+[01:14] to the big paid models.
+[01:16] That is a huge claim for something
+[01:18] that's free.
+[01:19] But here's what nobody is actually
+[01:20] showing you.
+[01:22] When you run the normal install command,
+[01:24] you get an 18 gig file.
+[01:26] And my card holds 12.
+[01:29] So, something has to give here.
+[01:33] And what gives is that speed.
+[01:35] And nobody tells you about that.
+[01:39] So, here's the test. Same model,
+[01:42] three different files. The 18 gig
+[01:44] default that everybody gets.
+[01:46] Then the 11 gig compressed version, and
+[01:49] a 9 and 1/2 gig.
+[01:52] All right, so, we're going to give it
+[01:53] the same prompt every single time.
+[01:56] We're going to tell it to
+[01:57] an invoice calculator for contractor.
+[02:00] So, a real thing a real business would
+[02:03] actually use and ask for. In full
+[02:05] disclosure, I didn't sit here typing all
+[02:08] night.
+[02:09] I have my client agent run the whole
+[02:11] test grid on this card and record every
+[02:13] single run. That's literally what I do.
+[02:17] All right, so the AI does the boring
+[02:18] part. Every single number you're about
+[02:21] to see came off my PC. Nothing came from
+[02:24] a simple spreadsheet.
+[02:26] All right, so first the default.
+[02:28] The one that everybody gets.
+[02:31] All right, watch the split here. Pay
+[02:32] attention.
+[02:34] Cuz about half the model landed on the
+[02:36] graphics card and the other half just
+[02:37] spilled right into the regular RAM.
+[02:40] And a llama doesn't warn you. It doesn't
+[02:42] throw an error. It just quietly sends
+[02:44] the overflow through that slow lane.
+[02:48] But what's the speed? So, if you don't
+[02:50] know what a token is, it's a basically a
+[02:52] chunk of a word essentially. And you'd
+[02:54] see you're thinking the model is
+[02:56] garbage, but it's not. It just doesn't
+[02:58] fit.
+[02:59] Now, here's where it gets a little bit
+[03:00] strange.
+[03:02] I grabbed the 11 gig version. 11 gig
+[03:05] on a 12 gig card. It should fit,
+[03:07] right?
+[03:09] But it ran slower than the 18 gig file.
+[03:12] Three tokens per second.
+[03:15] So, we're going to type in
+[03:17] a llama PS. Take a look at it. It says
+[03:19] 30 gigs for an 11 gig file.
+[03:22] So, what is happening?
+[03:25] This model can read a massive amount of
+[03:27] text at once, about 262,000
+[03:31] tokens.
+[03:32] And a llama hands it
+[03:34] that giant workspace.
+[03:36] So, that workspace uses the memory,
+[03:38] about 19 extra gigs of it. So, the file
+[03:41] actually fits, but the desk it works on
+[03:44] doesn't. That right there, that's the
+[03:47] trap.
+[03:48] I guarantee people are uninstalling this
+[03:50] model right now just because of that.
+[03:52] And one simple line can potentially fix
+[03:55] it for you.
+[03:57] Set the workspace to simply
+[04:00] 8,000 instead of 262,000. All right, so
+[04:03] stick with me. That's still plenty for
+[04:05] some normal work.
+[04:06] Same file, same card, and the same
+[04:09] prompt.
+[04:10] Four times faster.
+[04:12] One setting.
+[04:14] That's pretty huge.
+[04:16] All right, so real quick, every command
+[04:17] in this video is in the description in
+[04:19] order. Ready to copy and paste or
+[04:21] however you want to do it.
+[04:23] I also put together a one-page cheat
+[04:25] sheet with the right file for the 8, 12,
+[04:28] 16, and 24 gig cards. So, comment down
+[04:31] below and I'll send it.
+[04:32] Okay, so the best part's coming up.
+[04:36] Now, here's the file you actually want
+[04:38] on 12 gig card.
+[04:41] The 9 and 1/2 gig version of this.
+[04:45] It fits 100% all on the graphics card.
+[04:47] Nothing spilling over. The same brain,
+[04:51] same question.
+[04:52] But did it actually work? Because speed
+[04:54] means nothing if the answer is garbage.
+[04:57] This is the most squeezed down version
+[05:00] of the model.
+[05:02] So, you'd expect it to be dumber, right?
+[05:04] But here's what it actually built.
+[05:07] Line items, tax, totals updates live
+[05:10] while you type.
+[05:12] We even click tested it with the
+[05:14] automated browser. Change the numbers
+[05:16] and it recalculated all the totals. Zero
+[05:18] console errors. Boom.
+[05:21] A free model running on roughly a $600
+[05:23] graphics card.
+[05:25] Built a working tool a contractor could
+[05:27] actually use.
+[05:28] But there is a catch.
+[05:31] A compressed file like this will be a
+[05:33] little dumber,
+[05:35] especially on genuinely hard problems.
+[05:39] I still have to push it on some bigger
+[05:41] jobs. And I'm not going to promise
+[05:43] something I haven't tested yet. So, but
+[05:45] for everyday,
+[05:47] like build me this type of work, it
+[05:49] definitely delivered. So, there's one
+[05:51] more trap before
+[05:54] I you know, that I have to let you guys
+[05:55] in on. So, because this one cost me an
+[05:57] entire run. The model thinks before it
+[06:00] answers.
+[06:01] Essentially, write it out. You can watch
+[06:03] it reason. So, that is great for hard
+[06:06] problems. But watch what happened when I
+[06:08] left thinking turn on for the invoice
+[06:09] job.
+[06:11] It thought for over 200 seconds. 8,000
+[06:13] tokens of straight-up thinking. It
+[06:15] filled the entire workspace planning the
+[06:18] perfect invoice, and it never wrote one
+[06:20] line
+[06:21] of the actual file. And that we do that
+[06:23] too sometimes, right?
+[06:25] So, that's why overthinking can be
+[06:26] dangerous. But it ran out of room before
+[06:29] it actually started. So, for the simple
+[06:31] jobs, turn the thinking off. One
+[06:33] command,
+[06:34] it's in the description. So, then it
+[06:36] goes straight to the answer.
+[06:38] All right. So, here's where I'm landing
+[06:40] all of this. If you have that 12 gig
+[06:41] card, use the 9 gig file. Set the
+[06:44] workspace to around 8K.
+[06:46] And then turn off that thinking for
+[06:47] everyday jobs.
+[06:49] Fully local and free.
+[06:52] And actually builds working stuff. But
+[06:54] who is this video not for? If you want a
+[06:58] full strength version running at full
+[06:59] speed, 12 gigs is definitely not enough.
+[07:03] I'd say a 16 gig and probably even a 24
+[07:07] gig graphics card. So, that's
+[07:12] that's some substantial money. I'm not
+[07:14] telling you to upgrade. What I'm telling
+[07:16] you is that the card you have probably
+[07:19] can already run one of these best free
+[07:21] local models that's out there.
+[07:23] Especially if you pick that light file.
+[07:25] And that's really the lesson. Everybody
+[07:27] blames the model, but it wasn't the
+[07:28] model.
+[07:29] It was one file choice and one setting.
+[07:31] All the commands are in the description.
+[07:33] Check it out. And comment 12 gig if you
+[07:35] want the cheat sheet with the right file
+[07:37] for your card. And tell me what card
+[07:38] you're running.
+[07:40] I'll test the next model on whatever
+[07:41] most of you actually have.
+[07:44] All right, so next video I'm putting
+[07:45] this 9 gig file inside a coding agent
+[07:48] and seeing if it can fix real code on my
+[07:50] machine with no cloud and no sub.
+[07:53] So, subscribe so you don't miss that
+[07:55] one. See you later.

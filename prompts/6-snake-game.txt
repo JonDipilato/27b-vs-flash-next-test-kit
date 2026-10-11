@@ -1,0 +1,3 @@
+Build a single-file HTML Snake game. Output only the complete HTML file, nothing else.
+Requirements, with these exact ids: a <canvas id="game"> 400x400, a score display with id="score" that starts at 0 and goes up by 1 each time the snake eats food, a button with id="restart" that resets the game, and an element with id="status" that shows "Playing" while the game runs and "Game Over" when the snake hits a wall or itself.
+Arrow keys steer. The game starts moving as soon as the page loads, on a 20x20 grid, about 8 moves per second. Food never spawns on the snake. No external files, no libraries, no images. Give it a clean dark look with one accent color.

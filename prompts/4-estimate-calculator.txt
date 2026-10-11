@@ -1,0 +1,5 @@
+Build a single-file HTML job estimate calculator for a contractor. Output only the complete HTML file.
+Inputs (type=number) with these exact ids: hours (labor hours), rate (hourly rate $), materials (materials cost $), markup (markup %), tax (tax rate %).
+Outputs with these exact ids: labor, subtotal, markupAmount, taxAmount, total.
+Math: labor = hours x rate. subtotal = labor + materials. markupAmount = subtotal x markup%. taxAmount = (subtotal + markupAmount) x tax%. Round each money line to cents; total = the sum of the rounded subtotal, markupAmount and taxAmount so the shown numbers always add up.
+Show money as $1,234.56 with thousands separators. Update live as the user types (no calculate button). Empty inputs count as 0 and must never show NaN. Clean, professional look.

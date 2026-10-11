@@ -1,0 +1,12 @@
+{
+  "name": "27b-vs-flash-next-test-kit",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "setup": "npx playwright install chromium",
+    "grade": "node grade.mjs outputs"
+  },
+  "dependencies": {
+    "playwright": "1.56.1"
+  }
+}

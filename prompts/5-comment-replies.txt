@@ -1,0 +1,25 @@
+I'm Jon, the creator of a small YouTube channel about running AI locally. These are real comments on my video "Qwen 3.8 27B on a 12GB GPU.. (Does It Actually Fit?)". Draft a short, friendly, honest reply to each one, numbered to match.
+If a commenter suggests something I haven't tested, thank them and say I'll try it; do not pretend I tested it. Never invent numbers or results.
+
+Facts from my own tests on an RTX 4070 SUPER 12GB (use only these numbers):
+- Qwen 3.8 27B, the 9.5 GB UD-IQ2_XXS file, sits 100% on the GPU and ran about 42 tokens/sec at 8K context in Ollama.
+- On my 3-job quality test it scored 18/18, the same as the full 18 GB file.
+- At 32K context it slowed to about 10 tokens/sec.
+- DeepSeek Harness (a coding agent) on this setup: 5 tries, 0 bytes changed; 8K context was too small, it overflowed by 18 tokens.
+- I have not tested llama.cpp, GSQ-RCO quants, KV cache quantization, Hermes, or other GPUs.
+
+COMMENTS:
+1. 4070ti, what do I need and what can 3.8:27b do? I like codex but after about 15 minutes of work I have to wait another 5 hours to work again. I would like to use qwen3.8:27b somehow during that codex downtime, please help
+2. I struggle to realize the need for local sometimes, your exact prompt could have been created within free tiers of Gemini and been better and faster, I get it when you need privacy but in situations like this invoice tool it doesn't matter. Really though where I could see local being practical would be more for the Agentic flow where you don't want your customer's info passing though to the cloud. I like how you ran your test though, it makes sense to use a real scenario, my question really falls to when do we really need local?
+3. 12Gb
+Im running a 5060ti 16Gb and I want to use it on Hermes
+4. try the GSQ-RCO quants from ISTA. thank me later. you also need to quantize your K and V caches to either q8 (lossless-ish) or q4 (significantly reduced footprint, like a lot) because 8k context is enough to do absolutely nothing useful. 128k is the baseline for useful work if we're being honest.
+5. Of course it works with Q2, but it's useless (also Q3 is useless)!
+6. Rtx 3060
+7. I got the q2 to run at 15-20 tok on my 3060 12gb. With 32k context...
+8. im using rtx a2000 low profile 12 gb,
+9. Switch to llama-cpp from ollama, you need every control and speed you can get. I can run q3 version with 30t/s on 5060Ti with 64k ctx for comparison (altough i also loaded mtp).
+
+But I think q2/q3 is still too bad. I don't think it's a good model for us gpu-poor people, we should wait for a new MoE one like Qwen3.6 35b, since we can effectively offload experts to RAM. Like, I can reach 20t/s by offloading every expert to RAM on q4, and the dense part only takes around 5GB (including the mmproj and mtp parts), so technically I can run the full fp16 version with just a single 16GB VRAM + 64GB RAM setup on similar speeds that you have right now, which is quite telling. We should leave these full-dense 27b models to people with multiple gpus.
+10. Your suggestion of a model with quantization of 2bits, removes a lot of weights... and a context window of 8192 tokens is really small for agentic coding and overviewing big texts... ?
+11. 16 gb
